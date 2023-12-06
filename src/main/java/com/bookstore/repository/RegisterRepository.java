@@ -2,6 +2,7 @@ package com.bookstore.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.bookstore.entity.Login;
 import com.bookstore.entity.Register;
 
 public interface RegisterRepository extends JpaRepository<Register, Long> {
@@ -11,5 +12,7 @@ public interface RegisterRepository extends JpaRepository<Register, Long> {
 	Register findByUserId(String userId);
 
 	Register findByUserName(String username);
+
+	void save(Login user);
 
 }

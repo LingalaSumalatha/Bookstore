@@ -13,13 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.entity.Login;
 import com.bookstore.entity.Register;
 import com.bookstore.entity.Token;
 import com.bookstore.entity.User;
+import com.bookstore.exception.BookStoreAPIException;
 import com.bookstore.payload.CaptchaSettings;
+import com.bookstore.payload.ForgotPassword;
 import com.bookstore.service.AccountService;
 import com.bookstore.utils.CaptchaGenerator;
 
@@ -27,7 +30,7 @@ import cn.apiclub.captcha.Captcha;
 
 @RestController
 @RequestMapping("/Account")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:3000/")
 public class AccountController {
 
 	@Autowired
@@ -114,5 +117,16 @@ public class AccountController {
 		  captchaSettings.setRealCaptcha(CaptchaGenerator.encodeCaptchatoBinary(captcha));
 		  return captchaSettings;
 	  }
+
+	// Forgot password
+	@PostMapping("/forgotPassword")
+	public ResponseEntity<String> resetPassword(@RequestBody ForgotPassword forgotPassword) {
+	    if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmPassword())) {
+	        throw new BookStoreAPIException(HttpStatus.BAD_REQUEST, "New password and confirm password do not match");
+	    }
+
+	    accountService.forgotPassword(forgotPassword.getUsername(), forgotPassword.getNewPassword());
+	    return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+	}
 
 }

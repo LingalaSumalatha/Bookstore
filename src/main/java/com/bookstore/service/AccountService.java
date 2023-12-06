@@ -26,8 +26,11 @@ public interface AccountService {
 
 	// Logout
 	String logout(String userId);
+
+	void forgotPassword(String userName, String newPassword);
+
+
 	
-	// Forgot password
-	//ForgotPassword forgotPassword(String userId);
+	
 
 }

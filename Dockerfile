@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17
 
-LABEL mentainer="laxmipriya@natsoft.us"
+LABEL mentainer="Sumalatha@natsoft.us"
 
 WORKDIR /app
 

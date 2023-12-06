@@ -298,18 +298,30 @@ public class AccountServiceImpl implements AccountService {
 
 	    return "Logout Successful";
 	}
+	// AccountServiceImpl.java
 
-//	@Override
-//	public ForgotPassword forgotPassword(String userId) {
-//		
-//		
-//		
-//		return "Password Updated Sucessfully";
-//	}
+	@Override
+	public void forgotPassword(String userName, String newPassword) {
+	    // Find the user by username
+	    Login user = loginRepository.findByUserName(userName);
+	    
+	    if (user == null) {
+	        throw new BookStoreAPIException(HttpStatus.NOT_FOUND, "User not found");
+	    }
 
-	
+	    // Update the user's password
+	    user.setPassword(passwordEncoder.encode(newPassword));
+	    //To check in database 
+	    user.setPassword(newPassword);
+	    
+	    // Save the updated user entity
+	    loginRepository.save(user);
+	}
+
+	    	
 
 }
+
 
 
 
